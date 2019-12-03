@@ -40,7 +40,7 @@ open class PatientList {
 	open var onStatusUpdate: ((FHIRError?) -> Void)?
 	
 	/// The patients currently in this list.
-	var patients: [Patient]? {
+	public var patients: [Patient]? {
 		didSet {
 			// make sure the expected number of patients is at least as high as the number of patients we have
 			expectedNumberOfPatients = max(expectedNumberOfPatients, actualNumberOfPatients)
@@ -227,7 +227,7 @@ to one section.
 open class PatientListSection {
 	
 	open var title: String
-	var patients: [Patient]?
+	public var patients: [Patient]?
 	var numPatients: UInt {
 		return UInt(patients?.count ?? 0)
 	}
