@@ -877,10 +877,10 @@
 		};
 		B4BC3FA1232954E90097F26D /* XCRemoteSwiftPackageReference "Swift-FHIR" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/smart-on-fhir/Swift-FHIR.git";
+			repositoryURL = "https://github.com/Awesome-Technologies/Swift-FHIR.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.0;
+				kind = exactVersion;
+				version = "4.2.1-AMP.institute";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
