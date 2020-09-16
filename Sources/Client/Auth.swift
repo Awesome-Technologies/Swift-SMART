@@ -17,6 +17,7 @@ enum AuthType: String {
 	case implicitGrant = "implicit"
 	case codeGrant = "authorization_code"
 	case clientCredentials = "client_credentials"
+    case passwordGrant = "authorization_password"
 }
 
 
@@ -144,6 +145,8 @@ class Auth {
 			oauth = OAuth2ImplicitGrant(settings: settings)
 		case .clientCredentials:
 			oauth = OAuth2ClientCredentials(settings: settings)
+        case .passwordGrant:
+            oauth = OAuth2PasswordGrant(settings: settings)
 		default:
 			oauth = nil
 		}
@@ -211,14 +214,25 @@ class Auth {
 			
 			// start authorization (method implemented in iOS and OS X extensions)
 			callOnMainThread {
-				authorize(with: oa, properties: properties) { parameters, error in
-					if let error = error {
-						self.authDidFail(withError: error)
-					}
-					else {
-						self.authDidSucceed(withParameters: parameters ?? OAuth2JSON())
-					}
-				}
+                if type == .passwordGrant {
+                    oa.authorize { (parameters, error) in
+                        if let error = error {
+                            self.authDidFail(withError: error)
+                        }
+                        else {
+                            self.authDidSucceed(withParameters: parameters ?? OAuth2JSON())
+                        }
+                    }
+                } else {
+                    authorize(with: oa, properties: properties) { parameters, error in
+                        if let error = error {
+                            self.authDidFail(withError: error)
+                        }
+                        else {
+                            self.authDidSucceed(withParameters: parameters ?? OAuth2JSON())
+                        }
+                    }
+                }
 			}
 		}
 			
