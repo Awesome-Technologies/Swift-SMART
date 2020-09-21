@@ -51,11 +51,16 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 			didSetAuthSettings()
 		}
 	}
-	
-	/// Authenticated identity and profile token of end user; Assigned when scopes `openid` and `profile` are used.
-	public var idToken: String? {
-		get { return auth?.oauth?.idToken }
-	}
+
+    /// The access token provided from the auth server.
+    public var accessToken: String? {
+        get { return auth?.oauth?.accessToken }
+    }
+
+    /// Authenticated identity and profile token of end user; Assigned when scopes `openid` and `profile` are used.
+    public var idToken: String? {
+        get { return auth?.oauth?.idToken }
+    }
 	
 	/// The refresh token provided with the access token; Issuing a refresh token is optional at the discretion of the authorization server.
 	public var refreshToken: String? {
