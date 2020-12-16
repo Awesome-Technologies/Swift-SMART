@@ -57,6 +57,21 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
         get { return auth?.oauth?.accessToken }
     }
 
+    /// The access token is refreshed and the credentials are updated
+    public func refreshAccessToken(callback: @escaping (Error?) -> Void) {
+        auth?.oauth?.doRefreshToken(){ successParams, error in
+            if successParams != nil {
+                if self.auth?.oauth?.useKeychain ?? false {
+                    self.auth?.oauth?.storeTokensToKeychain()
+                }
+                callback(nil)
+            }
+            else if let error = error {
+                callback(error)
+            }
+        }
+    }
+
     /// Authenticated identity and profile token of end user; Assigned when scopes `openid` and `profile` are used.
     public var idToken: String? {
         get { return auth?.oauth?.idToken }
